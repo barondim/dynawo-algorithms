@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetch Dynawo
-        run: curl -LOs https://github.com/${{ github.repository_owner }}/dynawo/releases/download/v$DYNAWO_VERSION/Dynawo_Linux_v$DYNAWO_VERSION.zip
+        run: curl -LOs https://github.com/dynawo/dynawo/releases/download/v$DYNAWO_VERSION/Dynawo_Linux_v$DYNAWO_VERSION.zip
 
       - name: Unzip Dynawo
         run: unzip -qq "Dynawo_Linux_v${DYNAWO_VERSION}.zip"
@@ -92,7 +92,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetch Dynawo
-        run: curl -LOs https://github.com/${{ github.repository_owner }}/dynawo/releases/download/v$DYNAWO_VERSION/Dynawo_Linux_centos7_v$DYNAWO_VERSION.zip
+        run: curl -LOs https://github.com/dynawo/dynawo/releases/download/v$DYNAWO_VERSION/Dynawo_Linux_centos7_v$DYNAWO_VERSION.zip
 
       - name: Unzip Dynawo
         run: unzip -qq "Dynawo_Linux_centos7_v${DYNAWO_VERSION}.zip"
@@ -151,7 +151,7 @@ jobs:
 
       - name: Fetch Dynawo
         shell: bash
-        run: curl -LOs https://github.com/${{ github.repository_owner }}/dynawo/releases/download/v$DYNAWO_VERSION/Dynawo_Windows_v$DYNAWO_VERSION.zip
+        run: curl -LOs https://github.com/dynawo/dynawo/releases/download/v$DYNAWO_VERSION/Dynawo_Windows_v$DYNAWO_VERSION.zip
 
       - name: Unzip Dynawo
         shell: cmd
