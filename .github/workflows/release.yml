@@ -181,7 +181,9 @@ jobs:
 
       - name: Rename distribution
         shell: bash
-        run: for file in distrib/DynawoAlgorithms_*.zip ; do mv $file ${file//headers_Release/Windows} ; done
+        run: |
+          if "${{ matrix.use-mpi.value }}" == "YES" (for file in distrib/DynawoAlgorithms_*.zip ; do mv $file ${file//headers_Release/Windows} ; done)
+          if "${{ matrix.use-mpi.value }}" == "NO" (for file in distrib/DynawoAlgorithms_*.zip ; do mv $file ${file//headers_Release/Windows_without_mpi} ; done)
 
       - name: Fetch release script
         uses: actions/checkout@v3
