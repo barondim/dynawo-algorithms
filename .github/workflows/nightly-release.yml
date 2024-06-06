@@ -113,6 +113,7 @@ jobs:
         run: du -hs distributions/*
 
       - name: Fetch release script
+        if: ${{ matrix.use-mpi.value == 'YES' }}
         uses: actions/checkout@v3
         with:
           repository: ${{ github.repository_owner }}/dynawo
@@ -121,6 +122,7 @@ jobs:
           path: dynawo
 
       - name: Upload assets for release
+        if: ${{ matrix.use-mpi.value == 'YES' }}
         uses: actions/github-script@v6
         env:
           tag_name: ${{ env.DYNAWO_TAG }}
@@ -137,7 +139,7 @@ jobs:
 
       # The secrets.DISPATCH_TOKEN should contain a fine-grained PAT with access to dynawo/dynaflow-launcher with Repository permissions 'Contents: Read and write'
       - name: Tell dynaflow-launcher the nightly release is ready
-        if: github.event_name != 'workflow_dispatch' || inputs.perform-dispatch
+        if: matrix.use-mpi.value == 'YES' && (github.event_name != 'workflow_dispatch' || inputs.perform-dispatch)
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.DISPATCH_TOKEN }}
@@ -233,7 +235,11 @@ jobs:
         shell: bash
         run: |
           du -hs distrib/*
-          for file in distrib/DynawoAlgorithms_*.zip ; do mv $file ${file//headers_Release/Windows} ; done
+          if [ "${{ matrix.use-mpi.value }}" == "YES" ]; then
+            for file in distrib/DynawoAlgorithms_*.zip ; do mv $file ${file//headers_Release/Windows} ; done
+          else
+            for file in distrib/DynawoAlgorithms_*.zip ; do mv $file ${file//headers_Release/Windows_without_mpi} ; done
+          fi
 
       - name: Fetch release script
         uses: actions/checkout@v3
@@ -258,7 +264,7 @@ jobs:
             await release({github, context, core, glob})
 
       - name: Tell dynaflow-launcher the nightly release is ready
-        if: github.event_name != 'workflow_dispatch' || inputs.perform-dispatch
+        if: matrix.use-mpi.value == 'YES' && (github.event_name != 'workflow_dispatch' || inputs.perform-dispatch)
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.DISPATCH_TOKEN }}
