@@ -172,9 +172,11 @@ jobs:
         env:
           PATH: C:\Windows\system32;C:\Program Files\Git\cmd;C:\hostedtoolcache\windows\Python\3.7.9\x64
         run: |
-          if "${{ matrix.use-mpi.value }}" == "YES" set MSMPI_INC=C:\Program Files (x86)\Microsoft SDKs\MPI\Include\
-          if "${{ matrix.use-mpi.value }}" == "YES" set MSMPI_LIB32=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x86\
-          if "${{ matrix.use-mpi.value }}" == "YES" set MSMPI_LIB64=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64\
+          if "${{ matrix.use-mpi.value }}" == "YES" (
+            set "MSMPI_INC=C:\Program Files (x86)\Microsoft SDKs\MPI\Include\"
+            set "MSMPI_LIB32=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x86\"
+            set "MSMPI_LIB64=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64\"
+          )
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           call util\windows\dynawo-algorithms verbose build || exit /b 1
           call util\windows\dynawo-algorithms verbose distrib-headers distrib || exit /b 1
